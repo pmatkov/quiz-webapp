@@ -1,5 +1,5 @@
 
-module.exports = function(app, express, db, jwt, secret, bcrypt){
+module.exports = (express, db, jwt, secret, bcrypt) => {
 
     const authRouter = express.Router();
 
@@ -25,7 +25,7 @@ module.exports = function(app, express, db, jwt, secret, bcrypt){
                 user = { id: _id, ...u };
 
                 const token = jwt.sign({...user}, secret, {
-                    expiresIn: 3600
+                    expiresIn: '1h'
                 });
 
                 res.json({
@@ -37,19 +37,17 @@ module.exports = function(app, express, db, jwt, secret, bcrypt){
             } else {
                 res.json({status: 'NOT OK', description: 'Wrong password'});
             }
-    }
+         }
         }
-
-
     );
 
     authRouter.route('/register').post(async function(req, res) {
 
         console.log(req.body);
 
-        const u = await checkUser(db, res, req.body.username);
+        const user = await checkUser(db, res, req.body.username);
 
-        if (u)  {
+        if (user)  {
             res.json({ status: 'NOT OK', description: 'Username already exists' }); 
         }
         else {
@@ -60,7 +58,10 @@ module.exports = function(app, express, db, jwt, secret, bcrypt){
                 username : req.body.username,
                 password : hash,
                 name : req.body.name,
-                email : req.body.email
+                surname : req.body.surname,
+                age : req.body.age,
+                email : req.body.email,
+                role: 'user'
 
             };
 
@@ -68,7 +69,7 @@ module.exports = function(app, express, db, jwt, secret, bcrypt){
                 const data = await db.collection('users').insertOne(user);
 
                 const token = jwt.sign({...user, id: data.insertedId}, secret, {
-                    expiresIn: 3600
+                    expiresIn: '1h'
                 });
 
                 res.json({
@@ -80,21 +81,19 @@ module.exports = function(app, express, db, jwt, secret, bcrypt){
             } catch (e) {
                 res.json({ status: 'NOT OK' });
             }
-
         }
-
     });
 
 
-return authRouter;
+    return authRouter;
 
 }
 
-const checkUser = async (db, res, uname) => {
+const checkUser = async (db, res, username) => {
 
     try {
         const rows = await db.collection('users').find({
-            username: uname
+            username: username
         }).toArray();
 
         console.log(rows);
@@ -104,5 +103,4 @@ const checkUser = async (db, res, uname) => {
     catch (e) {
         res.json({status: 'NOT OK'});
     }
-
 }

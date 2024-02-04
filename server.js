@@ -4,24 +4,29 @@ const path = require('path');
 const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 
-const config = require('./config');
+const requireAuth = require('./app/routes/common/requireAuth');
+const checkRole = require('./app/routes/common/checkRole');
+
+const {url, port, secret} = require('./config');
 
 async function init() {
 
     try {
-        const client = new MongoClient(config.url);
+        const client = new MongoClient(url);
         await client.connect();
-        const database = client.db('napredni_js');
+        const database = client.db('quizdb');
         initServer(database);
 
-    } catch (e) {
-        console.error('Error connecting to database');
+    } catch (err) {
+        console.error('Error connecting to database', err);
     }
 };
 
 function initServer(database) {
+
+    console.log("test");
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
@@ -37,11 +42,26 @@ function initServer(database) {
 
     app.use(morgan('dev'));
 
-    const authRouter = require('./app/routes/auth')(app, express, database, jwt, config.secret, bcrypt);
+    const authRouter = require('./app/routes/auth/auth')(express, database, jwt, secret, bcrypt);
     app.use('/auth', authRouter);
 
-    const apiRouter = require('./app/routes/api')(app, express, database, jwt, config.secret);
-    app.use('/api', apiRouter);
+    const quizRouter = require('./app/routes/api/quizzes')(express, database, ObjectId, requireAuth, checkRole);
+    app.use('/api/quizzes', quizRouter);
+    
+    const categoryRouter = require('./app/routes/api/categories')(express, database, ObjectId, requireAuth, checkRole);
+    app.use('/api/categories', categoryRouter);
+
+    const questionRouter = require('./app/routes/api/questions')(express, database, ObjectId, requireAuth, checkRole);
+    app.use('/api/questions', questionRouter);
+
+    const assignedQuestionsRouter = require('./app/routes/api/assigned-questions')(express, database, ObjectId, requireAuth, checkRole);
+    app.use('/api/assigned-questions', assignedQuestionsRouter);
+
+    const quizResultsRouter = require('./app/routes/api/quiz-results')(express, database, ObjectId, requireAuth, checkRole);
+    app.use('/api/quiz-results', quizResultsRouter);
+
+    const userRouter = require('./app/routes/api/users')(express, database, ObjectId, requireAuth, checkRole, bcrypt);
+    app.use('/api/users', userRouter);
 
 
     app.get('*', function(req, res) {
@@ -49,9 +69,9 @@ function initServer(database) {
     });
 
 
-    app.listen(config.port);
+    app.listen(port);
 
-    console.log('Running on port: ' + config.port);
+    console.log('Running on port: ' + port);
 };
 
 init();
