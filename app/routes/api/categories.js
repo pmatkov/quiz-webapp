@@ -3,7 +3,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
     const categoryRouter = express.Router();
 
     categoryRouter.route('/')
-    .get(requireAuth, async function(req, res) {
+    .get(async function(req, res) {
 
         try {
 

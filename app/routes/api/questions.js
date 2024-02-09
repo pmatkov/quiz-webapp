@@ -3,8 +3,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
     const questionRouter = express.Router();
 
     questionRouter.route('/')
-    .get(requireAuth, (req, res, next) => {checkRole(req, res, next, 'admin');},
-        async function(req, res) {
+    .get(async function(req, res) {
 
         try {
 

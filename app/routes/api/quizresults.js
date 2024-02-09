@@ -1,10 +1,9 @@
 module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
-    const quizResultsRouter = express.Router();
+    const quizResultRouter = express.Router();
 
-    quizResultsRouter.route('/')
-    .get(requireAuth, (req, res, next) => {checkRole(req, res, next, 'admin');},
-        async function(req, res) {
+    quizResultRouter.route('/')
+    .get(async function(req, res) {
 
         try {
 
@@ -16,15 +15,14 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
         catch(e) {
             res.json({status: 'NOT OK'});
         }
-    }).post(requireAuth, (req, res, next) => {checkRole(req, res, next, 'admin');},
-        async function(req, res){
+    }).post(requireAuth, async function(req, res){
 
         console.log(req.body);
 
         const quizResults = {
             userId : req.body.userId,
             quizId: req.body.quizId,
-            totalQuestions: req.body.description,
+            totalQuestions: req.body.totalQuestions,
             questionsAnswered: req.body.questionsAnswered,
             score: req.body.score,
             timestamp: req.body.timestamp,
@@ -40,7 +38,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
     });
 
-    quizResultsRouter.route('/:id').
+    quizResultRouter.route('/:id').
     get(requireAuth, async function(req,res){
 
         try {
@@ -62,7 +60,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
         const quizResults = {
             userId : req.body.userId,
             quizId: req.body.quizId,
-            totalQuestions: req.body.description,
+            totalQuestions: req.body.totalQuestions,
             questionsAnswered: req.body.questionsAnswered,
             score: req.body.score,
             timestamp: req.body.timestamp,
@@ -97,6 +95,6 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
     });
     
-    return quizResultsRouter;
+    return quizResultRouter;
 
 }

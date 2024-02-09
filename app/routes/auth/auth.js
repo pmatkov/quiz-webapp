@@ -1,5 +1,5 @@
 
-module.exports = (express, db, jwt, secret, bcrypt) => {
+module.exports = (express, db, requireAuth, jwt, secret, bcrypt) => {
 
     const authRouter = express.Router();
 
@@ -27,11 +27,10 @@ module.exports = (express, db, jwt, secret, bcrypt) => {
                 const token = jwt.sign({...user}, secret, {
                     expiresIn: '1h'
                 });
-
                 res.json({
                     status: 'OK',
-                    token: token,
-                    user: user
+                    user: user,
+                    token: token
                 });
 
             } else {
@@ -67,15 +66,14 @@ module.exports = (express, db, jwt, secret, bcrypt) => {
 
             try {
                 const data = await db.collection('users').insertOne(user);
-
                 const token = jwt.sign({...user, id: data.insertedId}, secret, {
                     expiresIn: '1h'
                 });
 
                 res.json({
                     status: 'OK',
-                    token: token,
-                    insertId: data.insertedId
+                    insertId: data.insertedId,
+                    token: token
                 });
 
             } catch (e) {
@@ -84,9 +82,34 @@ module.exports = (express, db, jwt, secret, bcrypt) => {
         }
     });
 
+    authRouter.route('/restore').post(requireAuth, async function(req,res){
+
+        const user = {
+            id: req.body.id,
+            username : req.body.username,
+            password : req.body.password,
+            name : req.body.name,
+            surname : req.body.surname,
+            age : req.body.age,
+            email : req.body.email,
+            role: req.body.role,
+            imageUrl: req.body.imageUrl
+
+        };
+
+        const token = jwt.sign({...user}, secret, {
+            expiresIn: '1h'
+        });
+        res.json({
+            status: 'OK',
+            user: user,
+            token: token
+        });
+         
+        }
+    );
 
     return authRouter;
-
 }
 
 const checkUser = async (db, res, username) => {

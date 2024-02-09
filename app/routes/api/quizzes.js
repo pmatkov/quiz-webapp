@@ -3,7 +3,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
     const quizRouter = express.Router();
 
     quizRouter.route('/')
-    .get(requireAuth, async function(req, res) {
+    .get(async function(req, res) {
 
         try {
 

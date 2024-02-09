@@ -1,10 +1,9 @@
 module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
-    const assignedQuestionsRouter = express.Router();
+    const assignedQuestionRouter = express.Router();
 
-    assignedQuestionsRouter.route('/')
-    .get(requireAuth, (req, res, next) => {checkRole(req, res, next, 'admin');},
-        async function(req, res) {
+    assignedQuestionRouter.route('/')
+    .get(async function(req, res) {
 
         try {
 
@@ -36,7 +35,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
     });
 
-    assignedQuestionsRouter.route('/:id').
+    assignedQuestionRouter.route('/:id').
     get(requireAuth, async function(req,res){
 
         try {
@@ -89,6 +88,6 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
     });
     
-    return assignedQuestionsRouter;
+    return assignedQuestionRouter;
 
 }
