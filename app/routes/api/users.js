@@ -56,7 +56,6 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole, bcrypt, path) =
         else {
 
             try {
-
                 const data = await db.collection('users').find({
                     _id: new ObjectId(req.params.id)
                 }).

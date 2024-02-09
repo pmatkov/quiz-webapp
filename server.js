@@ -5,16 +5,16 @@ const morgan = require('morgan');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {MongoClient, ObjectId} = require('mongodb');
-
 const requireAuth = require('./app/routes/common/requireAuth');
 const checkRole = require('./app/routes/common/checkRole');
+require('dotenv').config();
 
-const {url, port, secret} = require('./config');
+const port = process.env.PORT || process.env.LOCAL_PORT;
 
 async function init() {
 
     try {
-        const client = new MongoClient(url);
+        const client = new MongoClient(process.env.DB_CONNECTION_STRING);
         await client.connect();
         const database = client.db('quizdb');
         initServer(database);
@@ -43,7 +43,7 @@ function initServer(database) {
 
     app.use(morgan('dev'));
 
-    const authRouter = require('./app/routes/auth/auth')(express, database, requireAuth, jwt, secret, bcrypt);
+    const authRouter = require('./app/routes/auth/auth')(express, database, requireAuth, jwt, bcrypt);
     app.use('/auth', authRouter);
     const userRouter = require('./app/routes/api/users')(express, database, ObjectId, requireAuth, checkRole, bcrypt, path);
     app.use('/api/users', userRouter);
@@ -61,7 +61,6 @@ function initServer(database) {
 
     const openAiRouter = require('./app/routes/openai/openai').openAiApi(express, requireAuth);
     app.use('/openai', openAiRouter);
-
 
     app.get('/api/me', requireAuth, (req, res) => {
         res.json({status: 'OK', user: req.decoded});
@@ -85,17 +84,3 @@ function initServer(database) {
 };
 
 init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-

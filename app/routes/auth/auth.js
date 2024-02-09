@@ -1,5 +1,6 @@
+const secret = process.env.SECRET;
 
-module.exports = (express, db, requireAuth, jwt, secret, bcrypt) => {
+module.exports = (express, db, requireAuth, jwt, bcrypt) => {
 
     const authRouter = express.Router();
 
@@ -109,7 +110,7 @@ module.exports = (express, db, requireAuth, jwt, secret, bcrypt) => {
         }
     );
 
-    return authRouter;
+    return authRouter;4
 }
 
 const checkUser = async (db, res, username) => {
