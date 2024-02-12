@@ -1,0 +1,45 @@
+.question-text {
+    font-size: 1em;
+}
+
+input[type="radio"] {
+    border: 2px solid lightgray;
+
+  }
+
+input[type="radio"]:checked {
+    color: silver;
+    background-color: silver;
+    border: 1px solid grey;
+
+}
+
+.card-body  {
+    border-right: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.hint {
+    color: silver;
+    min-height: 50px;
+}
+
+.btn {
+    padding: 4px 8px;
+    font-size: 0.8em;
+    border-color: silver;
+}
+
+.btn:focus {
+    outline: none; 
+    border-color: silver; 
+}
+
+ .btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.openai-icon {
+    max-width: 15px;
+    max-height: 15px;
+}   

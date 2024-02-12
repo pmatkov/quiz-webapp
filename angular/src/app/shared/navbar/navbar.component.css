@@ -1,0 +1,77 @@
+
+.navbar-brand {
+    font-family: 'Seymour One', sans-serif;
+    font-size: 1.8em;
+    color:whitesmoke;
+}
+
+a {
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+a.std-link {
+    color: white;
+}
+
+a.std-link:hover, .active {
+    text-decoration: underline 2px rgb(32, 98, 136);
+    text-underline-offset: 5px;
+}
+
+a.auth-link {
+    color:rgb(3, 30, 45);
+}
+
+a.auth-link:hover {
+    color:rgba(0, 60, 95, 0.7);
+}
+
+.fas {
+    color: rgb(240, 239, 247);
+    transform: rotate(15deg);
+}
+
+.fa-user {
+    transform: initial;
+}
+
+.gradient {
+    background: linear-gradient(to right, rgba(50, 158, 220, 0.9), rgba(50, 160, 200, 0.65));
+}
+
+.dropdown-menu, .dropdown-item {
+    font-size: 0.9em;
+    padding: 2px 4px;
+}
+
+.dropdown-menu {
+    min-width: 120px !important;
+}
+
+.dropdown-menu a:active{   
+    color: initial;
+    background-color: rgb(230, 230, 230); 
+}
+
+.dropdown-menu li:hover {
+    cursor: pointer;
+}
+
+.profile-img {
+    display: block;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+}
+
+@media (max-width: 768px) { 
+
+    .username {
+        padding-left: 10px;
+    }
+   
+}

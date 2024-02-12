@@ -1,0 +1,164 @@
+.page-header-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 1.6em;
+}
+
+.nav-item a {
+    padding: 1px 8px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.quiz {
+    cursor: pointer;
+}
+
+.quiz-main  {
+    min-height: 280px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-size: cover;
+}
+
+.quiz-main-header-title  {
+    border-radius: 10px;
+}
+
+.quiz-main-header-questions  {
+    background-color: rgba(150, 150, 150, 0.3);
+    border-radius: 5px;
+}
+
+.quiz-main-header-category  {
+    background-color: silver;
+    border-radius: 5px;
+}
+
+.quiz-main-details  {
+    border-radius: 5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    text-overflow: ellipsis;
+}
+
+.quiz-main-details-popup {
+    background-color: rgba(200, 200, 200, 0.6);
+    border-right: 1px solid rgba(160, 160, 160, 0.8);
+    border-bottom: 1px solid rgba(160, 160, 160, 0.8);
+}
+
+
+.quiz-main-details-description  {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.quiz-main-details-title {
+    font-family: 'Seymour One', sans-serif;
+    font-size: 2em;
+    transform: rotate(-5deg);
+}
+
+
+.quiz-footer  {
+    background-color: silver;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+p span {
+    color: dimgray;
+}
+
+label {
+    color: darkgrey;
+}
+
+input[type="text"] {
+    text-indent: 5px;
+    width: 150px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    background-color: AntiqueWhite;
+}
+
+.overlay {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 10px 5px 5px;
+}
+
+.overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px 10px 5px 5px;
+  }
+  
+.quiz-overlay-login {
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    color: white; 
+    border-radius: 5px;
+    background-color: rgb(55, 55, 55);
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.quiz-overlay-login p {
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    font-size: 1em;
+}
+
+
+
+@media (max-width: 1200px) { 
+
+    .quiz-details  {
+        -webkit-line-clamp: 3;
+    }
+
+    .quiz-main-details-title {
+        font-size: 1.6em;
+    }
+    
+}
+
+
+@media (max-width: 768px) { 
+
+    .page-header {
+        padding: 0 1em;
+    }
+
+    .quiz-container {
+        margin: 0;
+    }
+    
+
+    .quiz-details  {
+        -webkit-line-clamp: 3;
+
+    }
+
+    .quiz-main-details-title {
+        font-size: 2.2em;
+
+    }
+    
+}
+

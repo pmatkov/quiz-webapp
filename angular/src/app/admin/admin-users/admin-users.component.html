@@ -1,0 +1,78 @@
+<div class="container-fluid">
+    <h1>Users</h1>
+    <table class="table table-responsive table-bordered mt-3">
+        <thead>
+            <tr class="text-center">
+                <th>Id</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+                <th>Role</th>
+                <th>Change role</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+                <td class="text-center">{{i+1}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+                <td>{{user.age}}</td>
+                <td>{{user.role}}</td>
+                <td class="text-center" [matTooltip]="(getUserTooltip(user.id))!" matTooltipPosition="above">
+                    <button class="btn btn-edit" [disabled]="user.id === currentUser.id" (click)="changeRole(user)">
+                        <i class="fas fa-right-left"></i>
+                    </button>
+                </td>
+                <td class="text-center" [matTooltip]="(getUserTooltip(user.id))!" matTooltipPosition="above">
+                    <button class="btn btn-delete" [disabled]="user.id === currentUser.id" (click)="deleteUser(user.id)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+          </tbody>
+    </table>
+    <button *ngIf="!add" class="btn btn-add" (click)="addUser()"><i class="fas fa-plus"></i> Add
+    </button>
+    <div *ngIf="add" class="mt-2">
+        <form [formGroup]="userForm">
+            <fieldset class="form-group">
+                <label>Username:</label>
+                <input class="form-control" type="text" formControlName="username"/>
+                <ul *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(userForm.get('username')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Password:</label>
+                <input class="form-control" type="password" formControlName="password"/>
+                <ul *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(userForm.get('password')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Repeat password:</label>
+                <input class="form-control" type="password" formControlName="repeatedPassword"/>
+                <ul *ngIf="userForm.get('repeatedPassword')?.invalid && userForm.get('repeatedPassword')?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(userForm.get('repeatedPassword')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Role: </label>
+                <select class="form-control mb-2" formControlName="role">
+                    <option hidden disabled selected value>-- Select an option --</option>
+                    <option value="admin">admin</option>
+                    <option value="user">user</option>
+                </select>
+            </fieldset>
+            <div>
+                <span [matTooltip]="!userForm.valid ? 'Form is not valid': ''" matTooltipPosition="above">
+                    <button class="btn btn-sel mt-2 me-2" type="button" [disabled]="!userForm.valid" (click)="onSubmit()">Add</button>
+                </span>
+                <button class="btn btn-sel btn-can mt-2" type="button" (click)="switchMode()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

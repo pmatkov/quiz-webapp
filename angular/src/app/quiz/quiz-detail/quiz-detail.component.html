@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="row justify-content-center mt-3">
+        <div class="col-6 col-md-4 offset-1 offset-md-3 text-center">
+            <h1 *ngIf="!quizCompleted && (timeLeft || !quiz.timelimit)" class="quiz-title">{{quiz.title}}</h1>
+            <p *ngIf="!quizCompleted && !timeLeft && quiz.timelimit" class="expired mt-4 mb-0">The time for this quiz has expired.</p>
+        </div>
+        <div class="col-4 col-md-3">
+            <div class="info-display ms-md-4" [ngStyle]="{'visibility': !quizCompleted && timeLeft ? 'visible' : 'hidden'}">
+                <p>{{ quiz.timelimit ? 'Time left: ' : ''}}<span [ngStyle]="{'color': timeLeft < 10 ? 'red' : 'initial'}">{{ quiz.timelimit ? formatTime(timeLeft) : '' }}</span>{{ !quiz.timelimit ? 'No time limit: ' : ''}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center my-3">
+        <app-quiz-question *ngIf="!quizCompleted && (timeLeft || !quiz.timelimit)" class="quiz-container col-10 col-md-6 col-xxl-4" [question]="quizQuestions[questionIndex]" [questionIndex]="questionIndex" [questionsLength]="quizQuestions.length" (answerEvent)="onAnswer($event)"></app-quiz-question>
+        <app-quiz-results *ngIf="quizCompleted" class="quiz-container col-10 col-md-6 col-xxl-4" [quizResults]="quizResults" [questionsLength]="quizQuestions.length" [finalTime]="finalTime" [timeLimit]="quiz.timelimit ? true : false"></app-quiz-results>
+    </div>
+</div>

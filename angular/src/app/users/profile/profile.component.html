@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-6 col-xs-12 mb-4 mb-md-0 pe-5 text-md-end text-center">
+            <div class="d-flex justify-content-center justify-content-md-end">
+                <div class="avatar text-center"><img class="profile-img img-fluid" [src]="user.imageUrl ? imgDir + user.imageUrl : defaultImg" alt="profile img"></div>
+                <input type="file" #fileInput hidden accept="image/*" (change)="onFileSelected($event)">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-edit btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-pencil me-1"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" (click)="openFileInput()">Select image</a></li>
+                    <li><a class="dropdown-item" (click)="removeImage()">Remove image</a></li>
+                </ul>
+            </div>
+            <div class="d-flex justify-content-center justify-content-md-end">
+                <div *ngIf="maxSize" class="form-invalid mt-4 me-4">
+                    {{'File size limit exceeded'}}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <form [formGroup]="profileForm">
+                <div class="form-group row mb-1 justify-content-center justify-content-md-start align-items-center">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0">Username:</div>
+                    <div class="col-4 col-xxl-3"> 
+                        <input class="form-control rounded custom-control" type="text" disabled placeholder="{{user.username}}" *ngIf="!edit; else username">
+                        <ng-template #username>
+                            <input class="form-control rounded" type="text" formControlName="username">
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="form-group row mb-1 justify-content-center justify-content-md-start align-items-center">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0">Name:</div>
+                    <div class="col-4 col-xxl-3"> 
+                        <input class="form-control rounded custom-control" type="text" disabled placeholder="{{user.name}}" *ngIf="!edit; else name">
+                        <ng-template #name>
+                            <input class="form-control rounded" type="text" formControlName="name">
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="form-group row mb-1 justify-content-center justify-content-md-start align-items-center">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0">Surname:</div>
+                    <div class="col-4 col-xxl-3"> 
+                        <input class="form-control rounded custom-control" type="text" disabled placeholder="{{user.surname}}" *ngIf="!edit; else surname">
+                        <ng-template #surname>
+                            <input class="form-control rounded" type="text" formControlName="surname">
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="form-group row mb-1 justify-content-center justify-content-md-start align-items-center">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0">Age:</div>
+                    <div class="col-4 col-xxl-3"> 
+                        <input class="form-control rounded custom-control" type="text" disabled placeholder="{{user.age}}" *ngIf="!edit; else age">
+                        <ng-template #age>
+                            <input class="form-control rounded" type="text" formControlName="age">
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="form-group row mb-1 justify-content-center justify-content-md-start align-items-center">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0">E-mail:</div>
+                    <div class="col-4 col-xxl-3"> 
+                        <input class="form-control rounded custom-control" type="text" disabled placeholder="{{user.email}}" *ngIf="!edit; else email">
+                        <ng-template #email>
+                            <input class="form-control rounded" type="email" formControlName="email">
+                            <ul *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.dirty">
+                                <li class="form-invalid" *ngFor="let msg of getErrorMessages(profileForm.get('email')!)">{{msg}}</li>
+                            </ul>
+                    </ng-template>
+                    </div>
+                </div>
+                <div class="form-group row justify-content-center justify-content-md-start">
+                    <div class="personal-details col-3 col-md-2 offset-xs-1 offset-sm-0"></div>
+                    <div class="col-4 col-xxl-3">
+                        <button class="btn btn-sm mt-2 me-2" (click)="onEdit()" [disabled]="edit && !profileForm.valid">{{!edit ? 'Edit profile' : 'Save'}}</button>
+                        <button class="btn btn-sm mt-2" *ngIf="edit" (click)="onCancel()">Cancel</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>
+</div>

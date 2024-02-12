@@ -1,0 +1,124 @@
+<div class="container-fluid">
+    <h1>Quizzes</h1>
+    <div class="row">
+        <div class="col-md-4" *ngFor="let quiz of quizzes">
+            <article class="quiz mb-3 mb-md-4">
+                <section class="quiz-main d-flex flex-column justify-content-between" [ngStyle]="{'background-image': 'url(' + (getCategoryImage(quiz.categoryId) | async) + ')'}">
+                    <div class="d-flex justify-content-end mt-2 mx-2">
+                        <div class="col-4 col-md-6">
+                            <p class="quiz-category text-center">{{quiz.categoryName}}</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-between flex-grow-1">
+                        <div>
+                            <h2 class="quiz-title mx-2 mt-2">{{quiz.title}}</h2>
+                        </div>
+                        <div class="mb-1">
+                            <div class="d-flex m-0"> 
+                                <p class="col quiz-details ps-2">Questions:</p>  
+                                <p class="col quiz-details text-end pe-2"><span>{{getQuestionsCount(quiz.id) | async}}</span></p>  
+                            </div>
+                            <div class="d-flex m-0"> 
+                                <p class="col quiz-details ps-2">Time limit:</p>  
+                                <p class="col quiz-details text-end pe-2"><span>{{!quiz.timelimit ? '-' : quiz.timelimit + ' min(s)'}}</span></p>  
+                            </div>
+                            <div class="d-flex m-0"> 
+                                <p class="col quiz-details ps-2">Updated:</p>  
+                                <p class="col quiz-details text-end pe-2"><span>{{quiz.timestamp | date:"d.M.yyyy." }}</span></p>  
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer class="quiz-footer d-flex justify-content-end p-1">
+                    <button class="btn btn-edit me-2" (click)="editQuiz(quiz)"><i class="fas fa-pencil"></i></button>
+                    <button class="btn btn-delete" (click)="deleteQuiz(quiz.id)"><i class="fas fa-trash"></i></button>
+                </footer>
+            </article>
+        </div>
+    </div>
+    <button *ngIf="mode !== 'edit' && mode !== 'add'" class="btn btn-add" (click)="addQuiz()"><i class="fas fa-plus"></i> Add</button>
+    <div *ngIf="mode === 'edit' || mode === 'add'" class="mt-4">
+        <form [formGroup]="quizForm">
+            <fieldset class="form-group">
+                <label>Title:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" formControlName="title"/>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button *ngIf="questionsArray.length < 9" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="addQuestion()">Add que</button>
+                    </div>
+                </div>
+                <ul *ngIf="quizForm.get('title')?.invalid && quizForm.get('title')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(quizForm.get('title')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Description:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" formControlName="description"/>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <ul *ngIf="quizForm.get('description')?.invalid && quizForm.get('description')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(quizForm.get('description')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Category:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <select class="form-select" formControlName="category">
+                            <option hidden disabled selected value> -- Select an option -- </option>
+                            <option *ngFor="let category of quizCategories" [value]="category.name" [selected]="category.name === selectedQuiz?.categoryName">
+                                {{ category.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <ul *ngIf="quizForm.get('category')?.invalid && quizForm.get('category')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(quizForm.get('category')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Time limit:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="number" min="0" max="60" formControlName="timelimit" placeholder="0"/>
+                    </div>
+                </div>
+                <ul *ngIf="quizForm.get('timelimit')?.invalid && quizForm.get('timelimit')?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(quizForm.get('timelimit')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group" [ngClass]="{ 'mt-2': i === 0 }" formArrayName="questions" *ngFor="let mainquestion of questionsArray.controls; let i = index">
+                <label>Question {{i+1}}:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <select class="form-select" [formControlName]="i">
+                            <option hidden disabled selected value> -- Select an option -- </option>
+                            <option *ngFor="let question of quizQuestions" [value]="question.text" [selected]="question.text === mainquestion.value">
+                                {{ question.text }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="removeQuestion(i)">X</button>
+                    </div>
+                </div> 
+                <ul *ngIf="getArrayControls().at(i)?.invalid && getArrayControls().at(i)?.touched">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(getArrayControls().at(i)!, null, 'question')">{{msg}}</li>
+                </ul>   
+            </fieldset>
+            <div>
+                <span [matTooltip]="!quizForm.valid ? 'Form is not valid': ''" matTooltipPosition="above">
+                    <button class="btn btn-sel mt-2 me-2" type="button" [disabled]="!quizForm.valid" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
+                </span>
+                <button class="btn btn-sel btn-can mt-2" type="button" (click)="onCancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+

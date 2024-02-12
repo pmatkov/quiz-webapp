@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <div class="collapse navbar-collapse justify-content-end me-4">
+            <ul class="navbar-nav">
+                <div class="d-flex justify-content-end">
+                    <li class="nav-item ms-2" *ngFor="let category of quizCategories; let i = index">
+                        <a class="nav-link" [ngStyle]="{'border-color': category.color, 'background-color': category.selected || (category.color == hoverColor && i == hoverIndex) ? category.color : ''}" (mouseover)="setStyle(category, i)" (mouseout)="resetStyle(category)" (click)="setFilterValues(category)">{{category.name}} </a>
+                    </li>
+                </div>
+                <li class="nav-item ms-5">
+                    <label class="me-2" for="search">Search:</label>
+                    <input type="text" id="search" [(ngModel)]="query">
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row justify-content-md-center mt-5 mb-3">
+        <div class="col-md-9">
+            <div class="page-header">
+                <h1 class="page-header-title text-center">Test your knowledge with quizzes from our collection</h1>
+                <p class="page-header-details text-right">Quizzes in collection: {{quizzes.length}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-10">
+            <div class="row justify-content-md-start">
+                <div class="col-md-4 mb-4 gx-5 gy-md-4 gx-md-5" *ngFor="let quiz of quizzes | filter: 'categoryId' : filterValues : query; let i=index">
+                    <article class="quiz h-100" [ngClass]="{'overlay': quiz.showOverlay}" (mouseenter)="showDescription(quiz)" (mouseleave)="hideDescription(quiz)" [routerLink]="authenticated ? [quiz.id] : null" (click)="toggleOverlay(quiz)" (mousemove)="hideOverlay($event)">
+                        <div class="quiz-overlay-login ms-auto" *ngIf="quiz.showOverlay">
+                            <p>Sign in to take a quiz</p>
+                        </div>
+                        <section class="quiz-main d-flex flex-column justify-content-start" [ngStyle]="{'background-image': 'url(' + (getCategoryImage(quiz.categoryId) | async) + ')'}">
+                            <header class="quiz-main-header">
+                                <div class="d-flex justify-content-between mt-2 mx-2">
+                                    <div class="col-4 col-md-6 col-xl-4">
+                                        <p class="quiz-main-header-questions text-center">Questions: {{getQuestionsCount(quiz.id) |async}}</p>
+                                    </div>
+                                    <div class="col-4 col-md-4 col-xl-4">
+                                        <p class="quiz-main-header-category text-center" [ngStyle]="{'background-color': getCategoryColor(quiz.categoryId) | async}">{{quiz.categoryName}}</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-start mx-2">
+                                <h2 class="quiz-main-header-title mt-2">{{quiz.title}}</h2>
+                                </div>             
+                            </header>
+                            <div class="quiz-main-details mt-5 mx-4" [ngClass]="{'quiz-main-details-popup': quiz.showDescription}">
+                                <p class="quiz-main-details-description py-1 px-2" *ngIf="quiz.showDescription; else kweez">{{quiz.description}}</p>
+                                <ng-template #kweez>
+                                    <p class="quiz-main-details-title text-center p-1" [ngStyle]="{'color': quiz.color}">Kweez</p>
+                                </ng-template>
+                            </div>
+                        </section>
+                        <footer class="quiz-footer justify-content-between d-flex pt-2 p-1">
+                            <p class="time-limit m-0">Time limit: <span>{{!quiz.timelimit ? '-': quiz.timelimit + 'min(s)'}}</span></p>
+                            <p class="timestamp m-0">Last updated: <span>{{quiz.timestamp | date:"d.M.yyyy." }}</span></p>
+                        </footer>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

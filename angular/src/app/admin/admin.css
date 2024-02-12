@@ -1,0 +1,176 @@
+h1 {
+    font-size: 1.1em;
+}
+
+.btn {
+    padding: 4px 8px;
+}
+
+.btn, .btn:active, .btn:hover, .btn:focus {
+    border-color: transparent;
+}
+
+.btn-add {
+    border-color: silver;
+    font-size: 0.8em;
+}
+
+.btn-add:focus {
+    outline: none; 
+    border-color: silver;
+}
+
+.btn-add:hover {
+    border-color: rgb(200, 226, 224);
+    background-color: rgb(200, 226, 224);
+}
+
+.btn-info {
+    background-color: rgb(200, 226, 224);
+}
+
+.btn-info:active {
+    background-color: rgba(200, 226, 224, 0.8);
+}
+
+.btn-info:hover, .btn-reg-toggle {
+    background-color: rgba(200, 226, 224, 0.8);
+}
+
+.btn-edit {
+    background-color: rgb(216, 205, 176);
+}
+
+.btn-edit:active {
+    background-color: rgba(216, 205, 176, 0.8);
+}
+
+.btn-edit:hover {
+    background-color: rgba(216, 205, 176, 0.8);
+}
+
+.btn-delete {
+    background-color: rgb(211, 178, 178);
+}
+
+.btn-delete:active {
+    background-color: rgba(211, 178, 178, 0.8);
+}
+
+.btn-delete:hover {
+    background-color: rgba(211, 178, 178, 0.8);
+}
+
+.btn-sel {
+    border-color: silver;
+    background-color: rgb(245, 245, 245);
+    font-size: 0.8em;
+}
+
+
+.btn-sel:hover {
+    border-color: rgb(188, 219, 217);
+    background-color: rgb(188, 219, 217);
+}
+
+.btn-can:hover {
+    border-color: rgb(210, 210, 210);
+    background-color: rgb(210, 210, 210);
+}
+
+.btn-can:focus {
+    outline: none; 
+    border-color: silver;
+}
+
+
+.btn-openai {
+    border-color: silver;
+    font-size: 0.8em;
+}
+
+.btn-openai:focus {
+    outline: none; 
+    border-color: silver;
+}
+
+.btn-openai:hover, .btn-openai-toggle {
+    background-color: rgb(220, 220, 220);
+}
+
+button:disabled {
+    background-color: rgb(180, 180, 180);
+    border: 1px solid silver;
+    opacity: 0.5; 
+    cursor: not-allowed;
+}
+
+.openai-icon {
+    max-width: 15px;
+    max-height: 15px;
+}   
+
+.form-group {
+    color: black;
+}
+
+.form-control, .form-select {
+    color: gray;
+}
+
+.form-invalid, .form-message {
+    color: rgb(235, 0, 0);
+}
+
+.info-text {
+    font-size: 1.2em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 5px 0 0 0; 
+    margin: 0; 
+}
+
+table {
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+thead {
+    border: 1px solid rgb(240, 240, 240);
+}
+
+.table th,
+.table td {
+    border: none;
+    padding: 8px;
+    text-align: center;
+}
+
+.table th {
+    font-weight: 400;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.table tr {
+    border-bottom: 1px solid rgb(230, 230, 230);
+  }
+
+
+.collapsed {
+    color: rgb(160, 160, 160);
+}
+
+.collapsed th {
+    background-color: initial;
+
+}
+
+.collapsed tr  {
+    border: 1px solid rgb(240, 240, 240);
+}
+
+.openaitr td {
+    background-color: rgba(200, 226, 224, 0.1);
+}

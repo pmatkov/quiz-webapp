@@ -1,0 +1,35 @@
+.btn {
+    font-size: 0.9em;
+    border: 1px solid silver;
+    background-color: whitesmoke;
+}
+
+.btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+input[type='text'], input[type='password'] {
+    margin: 0;
+    font-size: 14px; 
+    padding: 2px 4px; 
+} 
+
+input.custom-control {
+    border-color: silver;
+    border:1px solid silver;
+    box-shadow: 0 0 1px silver;
+}
+
+.form-invalid, .form-message {
+    color: rgb(235, 0, 0);
+}
+
+.info-text {
+    font-size: 1.2em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0; 
+    margin: 0; 
+}

@@ -1,0 +1,133 @@
+<div class="container-fluid">
+    <h1>Questions</h1>
+    <table class="table table-responsive table-bordered mt-3">
+        <thead>
+            <tr class="text-center">
+                <th>Id</th>
+                <th>Question</th>
+                <th>Last modified</th>
+                <th>Assigned</th>
+                <th>Details</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let question of questions; let i = index">
+            <tr [ngClass]="question.openAi ? 'openaitr' : ''" >
+              <td class="text-center">{{i + 1}}</td>
+              <td>{{question.text}}</td>
+              <td class="text-center">{{question.timestamp | date: 'd.M.yyyy. HH:mm'}}</td>
+              <td class="text-center">{{(isQuestionAssigned(question.id) | async)  ? 'yes' : 'no'}}</td>
+              <td class="text-center">
+                <button class="btn btn-info" [ngClass]="question.toggled ? 'btn-reg-toggle' : ''" (click)="showDetails(question)">
+                  <i class="fa-regular fa-circle-question"></i>
+                </button>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-edit" (click)="editQuestion(question)">
+                  <i class="fas fa-pencil"></i>
+                </button>
+              </td>
+              <td class="text-center" [matTooltip]="(getQuestionTooltip(question.id))!" matTooltipPosition="above">
+                <button class="btn btn-delete" [disabled]="(isQuestionAssigned(question.id) | async)" (click)="deleteQuestion(question.id)">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="question.toggled">
+              <td colspan="8">
+                <table class="collapsed" style="width: 100%;">
+                  <thead>
+                    <tr class="text-center">
+                      <th colspan="4">Possible answers</th>
+                      <th colspan="4">Correct answer</th>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <td colspan="4">
+                      <span *ngFor="let option of question.options; let i = index">
+                        {{i + 1}}. {{ option }}
+                      </span>
+                    </td>
+                    <td colspan="4">{{question.answer}}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+    </table>
+    <button *ngIf="mode !== 'edit' && mode !== 'add'" class="btn btn-add pe-2" (click)="addQuestion()">
+        <i class="fas fa-plus"></i> Add
+      </button>
+      <button class="btn btn-openai ms-2" [ngClass]="openAi && !mode ? 'btn-openai-toggle' : ''" (click)="toggleOpenAi()">
+        <img class="openai-icon" [src]="openAiImg"> OpenAI
+      </button>
+      <div *ngIf="openAi && !mode" class="col-6 mt-4">
+          <label>Category: </label>
+            <select [(ngModel)]="aiCategory" class="form-control mb-2">
+                <option hidden disabled selected value>-- Select an option --</option>
+                <option *ngFor="let category of categories" [value]="category.name">
+                {{ category.name }}
+                </option>
+            </select>
+        <label>Answers (3-6): </label>
+        <input class="form-control" type="number" min="3" max="6"  [(ngModel)]="aiAnswers"><br>
+        <button class="btn btn-openai" (click)="generateQuestion()">Generate question</button>
+        <span *ngIf="waiting" class="ms-2">waiting for APi response...</span>
+      </div>
+    <div *ngIf="mode === 'edit' || mode === 'add'" class="mt-4">
+        <form [formGroup]="questionForm">
+            <fieldset class="form-group mb-2">
+                <label>Question:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" formControlName="text"/>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button *ngIf="optionsArray.length < 5" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="addOption()">Add opt</button>
+                    </div>
+                </div>
+                <ul *ngIf="questionForm.get('text')?.invalid && questionForm.get('text')?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(questionForm.get('text')!)">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group" [ngClass]="{ 'mb-2': i === optionsArray.controls.length - 1}" formArrayName="options" *ngFor="let option of optionsArray.controls; let i = index">
+                <label>Opt {{ i + 1 }}:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <input class="form-control" type="text" [formControlName]="i"/>
+                    </div>
+                    <div class="col-2 d-flex justify-content-start align-items-center">
+                        <button *ngIf="i > 2" class="btn btn-sel btn-can h-90 ms-2" type="button" (click)="removeOption(i)">X</button>
+                    </div>
+                </div>
+                <ul *ngIf="getArrayControls().at(i)?.invalid && getArrayControls().at(i)?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(getArrayControls().at(i)!, null, 'opt')">{{msg}}</li>
+                </ul>
+            </fieldset>
+            <fieldset class="form-group">
+                <label>Answer:</label>
+                <div class="d-flex">
+                    <div class="col-10">
+                        <select class="form-select" formControlName="answer">
+                            <option *ngFor="let optionControl of optionsArray.controls" [value]="optionControl.value">
+                            {{ optionControl.value }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+                <ul *ngIf="questionForm.get('answer')?.invalid && questionForm.get('answer')?.dirty">
+                    <li class="form-invalid" *ngFor="let msg of getErrorMessages(questionForm.get('answer')!)">{{msg}}</li>
+                </ul>
+                <div>{{questionForm.get('answer')?.value}}</div>
+            </fieldset>  
+            <div>
+                <span [matTooltip]="!questionForm.valid ? 'Form is not valid': ''" matTooltipPosition="above">
+                    <button class="btn btn-sel mt-2 me-2" type="button" [disabled]="!questionForm.valid" (click)="onSubmit()">{{mode === 'add' ? 'Add' : 'Save'}}</button>
+                </span>
+              <button class="btn btn-sel btn-can mt-2 " type="button" (click)="onCancel()">Cancel</button>
+            </div>
+          </form>
+    </div>
+</div>

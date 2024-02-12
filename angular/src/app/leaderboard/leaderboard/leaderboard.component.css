@@ -1,0 +1,52 @@
+h1 {
+    font-size: 1.1em;
+}
+
+.profile-img {
+    display: block;
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
+    padding: 2px;
+    border: 1px solid lightgray;
+    border-radius: 6px;
+}
+
+.table {
+    border-collapse: collapse;
+    max-width: 100%;
+}
+
+thead {
+    border: 1px solid rgb(240, 240, 240);
+}
+
+.table th,
+.table td {
+    border: none;
+    padding: 8px;
+    text-align: center;
+}
+
+.table th {
+
+    font-weight: 400;
+    background-color: rgba(245, 245, 245, 0.5);
+}
+
+.table tr {
+    border-bottom: 1px solid rgb(230, 230, 230);
+  }
+
+
+.sortable {
+    cursor: pointer;
+}
+
+.transparent {
+    color: transparent;
+  }
+  
+.colored {
+    color: black;
+}

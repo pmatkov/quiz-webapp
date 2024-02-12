@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-3 col-xs-12 text-md-end text-start">
+            <p class="pe-5">Sign in to your account:</p>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <form [formGroup]="loginForm" (submit)="onLogin()">
+                <fieldset class="form-group">
+                    <label for="username">Username: </label><br>
+                    <input class="custom-control rounded" type="text" id="username" formControlName="username">
+                    <ul *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.dirty">
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('username')!)">{{msg}}</li>
+                    </ul>
+                </fieldset>
+                <fieldset class="form-group mt-2">
+                    <label for="password">Password: </label><br>
+                    <input class="custom-control rounded" type="password" id="password" formControlName="password">
+                    <ul *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty">
+                        <li class="form-invalid" *ngFor="let msg of getErrorMessages(loginForm.get('password')!)">{{msg}}</li>
+                    </ul>
+                </fieldset>
+                <button class="btn btn-sm btn-login mt-2" type="submit" [disabled]="!loginForm.valid">Sign in</button>
+                <div class="form-message my-2" *ngIf="message">{{message}}</div>
+            </form>
+        </div>
+        <div class="row mt-5 justify-content-center p-0">
+            <div class="col-md-3 col-xs-12 text-md-end text-start">
+                <p class="pe-5">Need to create an account?</p>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <button class="btn btn-sm btn-register" type="button" [routerLink]="['../register']">Register</button>
+            </div>
+        </div>
+    </div>
+</div>

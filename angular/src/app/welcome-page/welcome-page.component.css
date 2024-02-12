@@ -1,0 +1,16 @@
+h1 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+p  {
+    font-size: 1em;
+}
+
+.test span {
+    color: silver;
+}
+
+ul > li {
+    font-size: 0.9em;
+}

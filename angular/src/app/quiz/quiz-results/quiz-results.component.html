@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header">
+      <p class="card-title question-text text-center">Quiz Results</p>
+    </div>
+    <div class="card-body text-center">
+        <div class="row">
+                <div class="col-6 text-end pe-2">
+                    <p>Questions: </p>  
+                </div> 
+                <div class="col-6 text-start">
+                    <p class="result">{{questionsLength}}</p>  
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-6 text-end pe-2">
+                <p>Score: </p>  
+            </div> 
+            <div class="col-6 text-start">
+                <p class="result">{{quizResults?.score}}/ {{questionsLength}}</p>  
+            </div>
+        </div>
+        <div *ngIf="timeLimit" class="row">
+            <div class="col-6 text-end pe-2">
+                <p>Time left: </p>  
+            </div> 
+            <div class="col-6 text-start">
+                <p class="result">{{finalTime}} seconds</p>  
+            </div>
+        </div>
+        <button type="button" class="btn btn-sm btn-confirm mt-2" [routerLink]="['../']">Ok</button> 
+    </div>
+</div>

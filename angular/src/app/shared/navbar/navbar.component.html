@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-light gradient">
+    <div class="container">
+        <a class="navbar-brand my-lg-2" [routerLink]="['/']">Kweez</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav ms-lg-auto me-lg-5 mt-2 mb-2">
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link std-link" routerLinkActive="active" [routerLink]="['quiz']"><i class="fas fa-question fa-lg me-3"></i>Quizzes</a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="nav-link std-link" routerLinkActive="active" [routerLink]="['leaderboard']"><i class="fas fa-trophy me-3"></i>Leaderboard</a>
+                </li>
+                <li *ngIf="authenticated && user.role === userRole.Admin" class="nav-item ms-lg-2">
+                    <a class="nav-link std-link" routerLinkActive="active" [routerLink]="['admin']"><i class="fas fa-keyboard me-3"></i>Admin</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mt-2 mb-2">
+                <div class="d-flex align-items-center">
+                    <img *ngIf="authenticated && user.imageUrl" class="profile-img img-fluid" [src]="imgDir + user.imageUrl" alt="profile img">
+                <li *ngIf="authenticated" class="nav-item dropdown ms-lg-2">
+                    <a class="nav-link std-link dropdown-toggle" [ngClass]="isActive() ? 'active' : ''" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i *ngIf="!user.imageUrl" class="fas fa-user me-3"></i>
+                        <span class="username">{{user.username}}</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" [routerLink]="['user']">Profile</a></li>
+                      <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                    </ul>
+                </li>
+            </div>
+                <li class="nav-item ms-lg-2">
+                    <a *ngIf="!authenticated" class="nav-link auth-link" [routerLink]="['auth/login']">Sign in</a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a *ngIf="!authenticated" class="nav-link auth-link" [routerLink]="['auth/register']">Register</a>
+                </li>  
+            </ul>
+        </div>
+    </div>
+</nav>

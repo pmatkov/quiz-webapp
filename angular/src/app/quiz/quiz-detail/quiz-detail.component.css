@@ -1,0 +1,29 @@
+.quiz-title {
+    font-size: 1.5em;
+}
+
+.info-display {
+    width: fit-content;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.info-display p {
+    margin-bottom: 0;
+    padding: 5px;
+}
+
+.expired {
+    letter-spacing: 0.5px;
+
+}
+
+@media (min-width: 1620px) { 
+
+    .quiz-container {
+        max-width: 550px;
+    }
+   
+}
+
+

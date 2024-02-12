@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row justify-content-start offset-md-1">
+      <div class="d-flex flex-md-column justify-content-md-start align-items-center align-items-sm-start col-md-2 px-lg-4 mt-md-5 sidebar">
+        <div class="nav-header">Dashboard</div>
+        <a class="nav-link" id="toggler" [routerLink]="['quizzes']" routerLinkActive="active" (click)="collapse($event)" >Quizzes</a>
+        <a class="nav-link nav-child hidden" [routerLink]="['categories']" routerLinkActive="active" (click)="collapse($event)">
+          <span class="nav-child lgscreen">Categories</span><i class="nav-child smscreen fa-solid fa-table-cells"></i>
+        </a>
+        <a class="nav-link nav-child hidden" [routerLink]="['questions']" routerLinkActive="active" (click)="collapse($event)">
+          <span class="nav-child lgscreen">Questions</span><i class="nav-child smscreen fa-solid fa-question"></i>
+        </a>
+        <a class="nav-link" [routerLink]="['users']" routerLinkActive="active" (click)="collapse($event)">Users</a>
+      </div>
+        <div class="col-md-9 col-xxl-7 px-md-4 mt-5 mt-md-5">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  

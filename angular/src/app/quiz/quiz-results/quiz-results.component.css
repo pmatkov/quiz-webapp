@@ -1,0 +1,23 @@
+.btn {
+    font-size: 0.9em;
+    border: 1px solid silver;
+    background-color: whitesmoke;
+}
+
+.btn:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+.row p {
+    margin-bottom: 0;
+}
+
+.result {
+    color: grey;
+}
+
+.card-body  {
+    border-right: 1px solid rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(220, 220, 220);
+}
+

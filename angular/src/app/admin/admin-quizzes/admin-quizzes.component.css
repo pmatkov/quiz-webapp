@@ -1,0 +1,128 @@
+h1 {
+    font-size: 1.1em;
+    margin-bottom: 1em;
+
+}
+
+.quiz-main  {
+    min-height: 180px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-size: cover;
+    border-left: 1px solid rgb(225, 225, 225);
+    border-right: 1px solid silver;
+
+}
+
+.quiz-title  {
+    border-radius: 10px;
+    font-size: 1.2em;
+    line-height: normal;
+}
+
+.quiz-questions  {
+    background-color: rgba(150, 150, 150, 0.3);
+    border-radius: 5px;
+}
+
+.quiz-category  {
+    background-color: rgba(192, 192, 192, 0.5);
+    border-radius: 5px;
+}
+
+.quiz-details {
+    font-size: 0.9em;
+}
+
+.quiz-footer  {
+    background-color: whitesmoke;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid rgb(220, 220, 220);
+    border-right: 1px solid silver;
+    border-bottom: 1px solid silver;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+p span {
+    color: dimgray;
+} 
+
+
+.btn {
+    padding: 4px 8px;
+}
+
+.btn:active {
+    border-color: transparent;
+}
+
+.btn-add {
+    border-color: silver;
+    font-size: 0.8em;
+}
+
+.btn-add:hover {
+    border-color: rgb(188, 219, 217);
+    background-color: rgb(188, 219, 217);
+}
+
+.btn-edit {
+    background-color: rgb(216, 205, 176);
+}
+
+.btn-edit:hover {
+    background-color: rgba(216, 205, 176, 0.8);
+}
+
+.btn-delete {
+    background-color: rgb(211, 178, 178);
+}
+
+.btn-delete:hover {
+    background-color: rgba(211, 178, 178, 0.8);
+}
+
+.btn-sel {
+    border-color: silver;
+    background-color: rgb(245, 245, 245);
+    font-size: 0.8em;
+}
+
+.btn-sel:hover {
+    border-color: rgb(188, 219, 217);
+    background-color: rgb(188, 219, 217);
+}
+
+.btn-can:hover {
+    border-color: rgb(210, 210, 210);
+    background-color: rgb(210, 210, 210);
+}
+
+.form-group {
+    color: black;
+}
+
+.form-control, .form-select {
+    color: gray;
+}
+
+.form-invalid, .form-message {
+    color: rgb(235, 0, 0);
+}
+
+.info-text {
+    font-size: 1.2em;
+}
+
+ul {
+    list-style-type: none;
+    padding: 5px 0 0 0; 
+    margin: 0; 
+}
+
+
