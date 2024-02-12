@@ -120,7 +120,7 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole, bcrypt, path) =
 
     });
 
-    const uploadDir = path.join(__dirname, '../../../public/app/uploads');
+    const uploadDir = path.join(__dirname, '../../../public/app/assets/uploads');
 
     const storage = multer.diskStorage({
       destination: (req, file, cb) => {
