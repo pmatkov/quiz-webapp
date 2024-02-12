@@ -61,8 +61,7 @@ module.exports = (express, db, requireAuth, jwt, bcrypt) => {
                 surname : req.body.surname,
                 age : req.body.age,
                 email : req.body.email,
-                role: 'user'
-
+                role: req.body.role
             };
 
             try {
