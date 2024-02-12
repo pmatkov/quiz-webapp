@@ -7,8 +7,19 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
         try {
 
-            const data = await db.collection('quizzes').find({}).
-            project({_id: 0, id: "$_id", title: 1, description: 1, categoryId: 1, timelimit: 1, timestamp: 1 }).toArray();
+            let data;
+
+            if (process.env.NODE_ENV == 'production') {
+              
+              const cosmos = require('../common/cosmosdb');
+              data = await cosmos(db, 'quizzes', {});
+    
+            }
+            else {
+
+                data = await db.collection('quizzes').find({}).
+                project({_id: 0, id: "$_id", title: 1, description: 1, categoryId: 1, timelimit: 1, timestamp: 1 }).toArray();
+            }
 
             res.json({ status: 'OK', quizzes: data});
         }
@@ -42,10 +53,21 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
     get(requireAuth, async function(req,res){
 
         try {
-            const data = await db.collection('quizzes').find({
-                _id: new ObjectId(req.params.id)
-            }).
-            project({_id: 0, id: "$_id", title: 1, description: 1, categoryId: 1, timelimit: 1, timestamp: 1 }).toArray();
+
+            let data;
+
+            if (process.env.NODE_ENV == 'production') {
+              
+              const cosmos = require('../common/cosmosdb');
+              data = await cosmos(db, 'quizzes', {_id: new ObjectId(req.params.id)});
+    
+            }
+            else {
+                data = await db.collection('quizzes').find({
+                    _id: new ObjectId(req.params.id)
+                }).
+                project({_id: 0, id: "$_id", title: 1, description: 1, categoryId: 1, timelimit: 1, timestamp: 1 }).toArray();
+            }
 
             res.json({ status: 'OK', quiz: data });
 

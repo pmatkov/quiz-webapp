@@ -7,8 +7,19 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
         try {
 
-            const data = await db.collection('categories').find({}).
-            project({_id: 0, id: "$_id", name: 1, description: 1}).toArray();
+            let data;
+
+            if (process.env.NODE_ENV == 'production') {
+              
+              const cosmos = require('../common/cosmosdb');
+              data = await cosmos(db, 'categories', {});
+    
+            }
+            else {
+
+                data = await db.collection('categories').find({}).
+                project({_id: 0, id: "$_id", name: 1, description: 1}).toArray();
+            }
 
             res.json({ status: 'OK', categories: data});
         }
@@ -40,10 +51,21 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole) => {
 
         try {
 
-            const data = await db.collection('categories').find({
-                _id: new ObjectId(req.params.id)
-            }).
-            project({_id: 0, id: "$_id",  name: 1, description: 1}).toArray();
+            let data;
+
+            if (process.env.NODE_ENV == 'production') {
+              
+              const cosmos = require('../common/cosmosdb');
+              data = await cosmos(db, 'categories', {_id: new ObjectId(req.params.id)});
+    
+            }
+            else {
+
+                data = await db.collection('categories').find({
+                    _id: new ObjectId(req.params.id)
+                }).
+                project({_id: 0, id: "$_id",  name: 1, description: 1}).toArray();
+            }
 
             res.json({ status: 'OK', category: data });
 

@@ -11,10 +11,19 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole, bcrypt, path) =
     .get(requireAuth, async function(req, res) {
 
         try {
+            let data;
 
-            const data = await db.collection('users').find({}).
-            project({_id: 0, id: "$_id", username: 1, password: 1, 
-            name: 1, surname: 1, age: 1, email: 1, role: 1, imageUrl: 1}).toArray();
+            if (process.env.NODE_ENV == 'production') {
+              
+              const cosmos = require('../common/cosmosdb');
+              data = await cosmos(db, 'users', {});
+    
+            }
+            else {
+              data = await db.collection('users').find({}).
+              project({_id: 0, id: "$_id", username: 1, password: 1, 
+              name: 1, surname: 1, age: 1, email: 1, role: 1, imageUrl: 1}).toArray();
+            }
 
             res.json({ status: 'OK', users: data});
         }
@@ -56,11 +65,23 @@ module.exports = (express, db, ObjectId, requireAuth, checkRole, bcrypt, path) =
         else {
 
             try {
-                const data = await db.collection('users').find({
+
+              let data;
+
+              if (process.env.NODE_ENV == 'production') {
+                
+                const cosmos = require('../common/cosmosdb');
+                data = await cosmos(db, 'users', {_id: new ObjectId(req.params.id)});
+      
+              }
+              else {
+
+                data = await db.collection('users').find({
                     _id: new ObjectId(req.params.id)
                 }).
                 project({_id: 0, id: "$_id", username: 1, password: 1, 
                 name: 1, surname: 1, age: 1, email: 1, role: 1, imageUrl: 1}).toArray();
+              }
                 res.json({ status: 'OK', user: data });
     
             } catch (e) {
