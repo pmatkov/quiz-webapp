@@ -1,4 +1,4 @@
-## Kveez app
+## Quiz web app
 
 Create your own quiz and test your knowledge in various categories (or ask for help from your trusted AI advisor)
 
